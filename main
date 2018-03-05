@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# $OSTYPE is in {"linux-gnu", "darwin", "freebsd"}
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+source $DIR/vars
+source $DIR/weather.sh
+source $DIR/battery.sh
+source $DIR/cpu-temp.sh
+
+WIDGET_COUNT=3
+
+EPOCH=$( date +%s )
+TENS=$((EPOCH / 10))
+
+if [[ $((TENS % WIDGET_COUNT)) == 1 ]]; then
+  weather
+elif [[ $((TENS % WIDGET_COUNT)) == 2 ]]; then
+  battery
+else
+  cpu-temp
+fi

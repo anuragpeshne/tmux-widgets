@@ -1,0 +1,6 @@
+#!/bin/bash
+
+WEATHER_KEY="your key here"
+
+LATITUDE=0.0
+LONGITUDE=0.0
