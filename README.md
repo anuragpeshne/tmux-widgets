@@ -1,6 +1,8 @@
 # tmux-widgets
 text based widgets for tmux
 
+![demo](https://github.com/anuragpeshne/tmux-widgets/blob/master/img/tmux-widget.gif)
+
 # Installation
 1. Clone this repository
    - ```git clone https://github.com/anuragpeshne/tmux-widgets ~/code/tmux-widgets```
