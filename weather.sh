@@ -32,9 +32,18 @@ function weather {
     esac
   }
 
+  # get long-lat once
+  if [ ! -f /tmp/latlong ]; then
+    curl --silent http://ip-api.com/csv > /tmp/latlong
+  fi
+
+  LOCATION=$(cat /tmp/latlong)
+  CITY=$(echo "$LOCATION" | cut -d , -f 6)
+  LATITUDE=$(echo "$LOCATION" | cut -d , -f 8)
+  LONGITUDE=$(echo "$LOCATION" | cut -d , -f 9)
+
   # don't refresh unless 10 min older data
   if [ ! -f /tmp/weather ] || [ $(( $(date +%s) - $(stat -f%c /tmp/weather) )) -gt 600 ]; then
-    echo "curling at $(date)" >> /tmp/wlog
     curl --silent http://api.openweathermap.org/data/2.5/weather\?lat="$LATITUDE"\&lon="$LONGITUDE"\&APPID="$WEATHER_KEY"\&units=metric > /tmp/weather
   fi
   WEATHER=$(cat /tmp/weather)
