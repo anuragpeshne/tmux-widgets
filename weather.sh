@@ -32,8 +32,12 @@ function weather {
     esac
   }
 
-
-  WEATHER=$(curl --silent http://api.openweathermap.org/data/2.5/weather\?lat="$LATITUDE"\&lon="$LONGITUDE"\&APPID="$WEATHER_KEY"\&units=metric)
+  # don't refresh unless 10 min older data
+  if [ ! -f /tmp/weather ] || [ $(( $(date +%s) - $(stat -f%c /tmp/weather) )) -gt 600 ]; then
+    echo "curling at $(date)" >> /tmp/wlog
+    curl --silent http://api.openweathermap.org/data/2.5/weather\?lat="$LATITUDE"\&lon="$LONGITUDE"\&APPID="$WEATHER_KEY"\&units=metric > /tmp/weather
+  fi
+  WEATHER=$(cat /tmp/weather)
 
   CITY=$(echo $WEATHER | egrep -o 'name":"[a-zA-Z]*"' | cut -c 8- | rev | cut -c 2- | rev)
   TEMP=$(echo $WEATHER | egrep -o 'temp":[0-9.]*,' | cut -b 7- | rev | cut -c 2- | rev)

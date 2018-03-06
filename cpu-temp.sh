@@ -7,6 +7,7 @@ function cpu-temp {
     printf "%s" $TEMP;
   elif [[ "$OSTYPE" == "linux-gnu" ]]; then
     TEMP=$(cat /sys/class/thermal/thermal_zone*/temp)
-    for it in $TEMP; do printf "%s°C" $(( $it / 1000 )); done
+    for it in $TEMP; do printf "%s°C " $(( $it / 1000 )); done
   fi
+  printf "%s" "🌡 "
 }
