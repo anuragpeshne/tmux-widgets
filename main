@@ -8,16 +8,16 @@ source $DIR/vars
 source $DIR/weather.sh
 source $DIR/battery.sh
 source $DIR/cpu-temp.sh
+source $DIR/rts-bus.sh
 
-WIDGET_COUNT=3
+WIDGETS=(weather battery cpu-temp)
+
+CUR_HOUR=$( date +%H )
+if [ $CUR_HOUR -gt 19 ] && [ $CUR_HOUR -lt 22 ]; then
+  WIDGETS+=(rts-bus)
+fi
 
 EPOCH=$( date +%s )
 TENS=$((EPOCH / 10))
 
-if [[ $((TENS % WIDGET_COUNT)) == 1 ]]; then
-  weather
-elif [[ $((TENS % WIDGET_COUNT)) == 2 ]]; then
-  battery
-else
-  cpu-temp
-fi
+${WIDGETS[$(( TENS % ${#WIDGETS[@]} ))]}
