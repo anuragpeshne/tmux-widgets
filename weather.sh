@@ -15,10 +15,16 @@ function weather {
   #
   # Weather data reference: http://openweathermap.org/weather-conditions
   weather_icon() {
+    CUR_HOUR=$( date +%H )
     case $1 in
       500) echo 🌦
         ;;
-      800) echo ☀️
+      800)
+        if [ $CUR_HOUR -lt 18 ]; then
+          echo ☀️
+        else
+          echo 🌙
+        fi
         ;;
       801) echo 🌤
         ;;

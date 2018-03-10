@@ -20,4 +20,9 @@ fi
 EPOCH=$( date +%s )
 TENS=$((EPOCH / 10))
 
-${WIDGETS[$(( TENS % ${#WIDGETS[@]} ))]}
+WIDGET_OUT=$( ${WIDGETS[$(( TENS % ${#WIDGETS[@]} ))]} )
+
+# pad some space
+# from https://stackoverflow.com/a/4411098/1291435
+OUT="                             "
+printf "%s%s " "${OUT:${#WIDGET_OUT}}" $WIDGET_OUT
